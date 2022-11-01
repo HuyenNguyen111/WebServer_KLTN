@@ -1,9 +1,9 @@
 {% extends "index.html" %} {% block content %}
 <div class="input-group mb-3">
     <select class="form-select">
-        <option value="1">Khoa công nghệ thông tin</option>
-        <option value="2">Khoa công nghệ thông tin</option>
-        <option value="3">Khoa công nghệ thông tin</option>
+        {% for department in departments %}
+        <option value="{{department.id}}">{{department.name}}</option>
+        {% endfor %}
     </select>
     <button class="btn btn-danger">Xuất file</button>
 </div>
@@ -20,36 +20,18 @@
             </tr>
         </thead>
         <tbody>
+            {% for not_e in not_evaluate %}
             <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>john@example.com</td>
-                <td>john@example.com</td>
-                <td>john@example.com</td>
+                <td>{{not_e.name}}</td>
+                <td>{{not_e.studentID}}</td>
+                <td>{{not_e.department.name}}</td>
+                <td>{{not_e.quantity}}</td>
+                <td>{{not_e.score}}</td>
                 <td>
                     <button class="btn btn-primary btn-sm">Chỉnh sửa</button>
                 </td>
             </tr>
-            <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>john@example.com</td>
-                <td>john@example.com</td>
-                <td>mary@example.com</td>
-                <td>
-                    <button class="btn btn-primary btn-sm">Chỉnh sửa</button>
-                </td>
-            </tr>
-            <tr>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>john@example.com</td>
-                <td>john@example.com</td>
-                <td>july@example.com</td>
-                <td>
-                    <button class="btn btn-primary btn-sm">Chỉnh sửa</button>
-                </td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
