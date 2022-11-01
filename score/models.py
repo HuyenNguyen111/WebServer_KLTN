@@ -9,6 +9,9 @@ class Deparment(models.Model):
     """
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 
 class Score(models.Model):
     """
@@ -23,7 +26,7 @@ class DataBottle(models.Model):
         Bảng lưu thông tin sinh viên, số lượng chai, điểm
         - xuất excel từ bảng này
     """
-    name = models.CharField(max_lenght=500, blank=False)
+    name = models.CharField(max_length=500, blank=False)
     studentID = models.CharField(max_length=10, blank=False)
     quantity = models.IntegerField()
     deparment = models.ForeignKey(Deparment, on_delete=models.CASCADE)
