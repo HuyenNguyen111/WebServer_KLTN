@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import DataBottle, Department, Score, HistoryEvaluate
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout as lout
 # Create your views here.
 
 
@@ -34,6 +35,7 @@ def post_data(request):
     return Response(status=status.HTTP_200_OK)
 
 
+@login_required
 def score_view(request):
     departments = Department.objects.all()
     department = Department.objects.get(id=1)
@@ -41,6 +43,7 @@ def score_view(request):
     return render(request, 'score.html', context={'departments': departments, 'not_evaluate': not_evaluate})
 
 
+@login_required
 def history_view(request):
     departments = Department.objects.all()
     histories = HistoryEvaluate.objects.all()
@@ -48,6 +51,7 @@ def history_view(request):
     return render(request, 'history.html', context={"departments": departments, "histories": histories})
 
 
+@login_required
 def historyItem_view(request, id):
     departments = Department.objects.all()
     history = HistoryEvaluate.objects.get(pk=id)
@@ -60,4 +64,17 @@ class Login(View):
         return render(request, 'login.html')
 
     def post(self, request):
-        pass
+        data = request.POST
+        user = authenticate(username=data.get('username'),
+                            password=data.get('password'))
+        if user is not None:
+            login(request=request, user=user)
+            return redirect('/')
+        else:
+            return render(request, 'login.html', context={"error": "Username or password incorrect"})
+
+
+@login_required
+def logout(request):
+    lout(request)
+    return redirect('login')

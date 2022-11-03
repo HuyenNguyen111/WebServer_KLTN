@@ -12,7 +12,7 @@
                 height: 200px;
                 background: #aaa;
             }
-            </style>
+        </style>
     </head>
     <body>
         <div class="container mt-5">
@@ -20,14 +20,40 @@
                 <div class="col-sm-2">
                     <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
-                            <a class="nav-link menu-item" href="/">Chưa đánh giá</a>
+                            <a class="nav-link menu-item" href="/"
+                                >Chưa đánh giá</a
+                            >
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-item" href="/history/">Lịch sử</a>
+                            <a class="nav-link menu-item" href="/history/"
+                                >Lịch sử</a
+                            >
+                        </li>
+                        {% if user.is_authenticated %}
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-item" href="/"
+                                >Hello {{user.username}}</a
+                            >
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-item" href="{% url 'login' %}">Đăng nhập</a>
+                            <a
+                                class="nav-link menu-item"
+                                href="{% url 'logout' %}"
+                                >Đăng xuất</a
+                            >
                         </li>
+                        {% else %}
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link menu-item"
+                                href="{% url 'login' %}"
+                                >Đăng nhập</a
+                            >
+                        </li>
+
+                        {% endif %}
                     </ul>
                     <hr class="d-sm-none" />
                 </div>
