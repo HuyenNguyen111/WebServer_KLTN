@@ -1,6 +1,5 @@
 asgiref==3.5.2
 autopep8==2.0.0
-backports.zoneinfo==0.2.1
 Django==4.1.2
 django-cors-headers==3.13.0
 djangorestframework==3.14.0
@@ -12,3 +11,4 @@ pytz==2022.6
 sqlparse==0.4.3
 tomli==2.0.1
 zipp==3.10.0
+gunicorn

@@ -28,11 +28,94 @@
                 <td>{{not_e.quantity}}</td>
                 <td>{{not_e.score}}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                    >
+                        Chỉnh sửa
+                    </button>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
+
+        <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Cập nhật thông tin
+                        </h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <div class="mb-3 mt-3">
+                                <label for="email" class="form-label"
+                                    >Họ tên:</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="hoTen"
+                                    placeholder="Nhập họ tên"
+                                    name="hoTen"
+                                />
+                            </div>
+                            <div class="mb-3">
+                                <label for="pwd" class="form-label"
+                                    >Khoa:</label
+                                >
+                                <select class="form-select">
+                                    {% for department in departments %}
+                                    <option value="{{department.id}}">
+                                        {{department.name}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label for="email" class="form-label"
+                                    >Số lượng:</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="soLuong"
+                                    placeholder="Nhập số lượng"
+                                    name="soLuong"
+                                />
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Cập nhật
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </table>
 </div>
 <ul class="pagination">
