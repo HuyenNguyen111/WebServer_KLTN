@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('update-score/', views.update_score, name='update-score'),
     path('export-report/', views.export_report, name='export-report'),
+    path('get-dpm/', views.get_deparment),
 ]

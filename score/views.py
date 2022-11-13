@@ -10,7 +10,14 @@ from django.contrib.auth import login, authenticate, logout as lout
 from typing import Union
 import xlwt
 from django.core.paginator import Paginator
-# Create your views here.
+from . import serializers
+
+@api_view(['GET'])
+def get_deparment(request):
+    department = Department.objects.all()
+    data = serializers.DepartmentSerialze(department, many = True).data
+    return Response(data = data, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST'])
