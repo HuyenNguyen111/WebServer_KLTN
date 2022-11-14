@@ -29,19 +29,19 @@ def post_data(request) -> Response:
     score = Score.objects.all().values()[0]
     if data_bottle:
         DataBottle.objects.filter(pk=data_bottle[0].id).update(
-            quantity=data.get('quantity')+data_bottle[0].quantity,
-            score=(data.get('quantity') +
+            quantity=int(data.get('quantity'))+data_bottle[0].quantity,
+            score=(int(data.get('quantity')) +
                    data_bottle[0].quantity)/score['numItem']*score['score']
         )
     else:
         DataBottle.objects.create(
             name=data.get('name'),
             studentID=data.get('studentID'),
-            quantity=data.get('quantity'),
+            quantity=int(data.get('quantity')),
             department=department,
             note=data.get('note'),
             status=0,
-            score=data.get('quantity')/score['numItem']*score['score']
+            score=int(data.get('quantity'))/score['numItem']*score['score']
         )
     return Response(status=status.HTTP_200_OK)
 
