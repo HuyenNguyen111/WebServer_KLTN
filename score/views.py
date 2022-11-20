@@ -11,13 +11,14 @@ from typing import Union
 import xlwt
 from django.core.paginator import Paginator
 from . import serializers
+from django.utils import timezone
+
 
 @api_view(['GET'])
 def get_deparment(request):
     department = Department.objects.all()
-    data = serializers.DepartmentSerialze(department, many = True).data
-    return Response(data = data, status=status.HTTP_200_OK)
-
+    data = serializers.DepartmentSerialze(department, many=True).data
+    return Response(data=data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -45,9 +46,11 @@ def post_data(request) -> Response:
         )
     return Response(status=status.HTTP_200_OK)
 
+
 @login_required
 def index(request):
     return redirect('/score/?page=1')
+
 
 @login_required
 def score_view(request) -> HttpResponse:
@@ -56,7 +59,7 @@ def score_view(request) -> HttpResponse:
     not_evaluate = DataBottle.objects.filter(
         status=0
     )
-    paginator = Paginator(not_evaluate, per_page=2)
+    paginator = Paginator(not_evaluate, per_page=10)
     page_object = paginator.get_page(page)
     return render(request, 'score.html', context={'departments': departments, 'page_object': page_object})
 
@@ -116,7 +119,7 @@ def update_score(request) -> Response:
 def export_report(request):
 
     dpm = Department.objects.get(id=int(request.GET['dpm'][0]))
-    data = DataBottle.objects.filter(department=dpm)
+    data = DataBottle.objects.filter(department=dpm, status=0)
 
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="users.xls"'
@@ -141,8 +144,17 @@ def export_report(request):
 
     for row in data:
         row_num += 1
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, row[col_num], font_style)
-
+        ws.write(row_num, 0, row_num, font_style)
+        ws.write(row_num, 1, row.name, font_style)
+        ws.write(row_num, 2, row.studentID, font_style)
+        ws.write(row_num, 3, row.department.name, font_style)
+        ws.write(row_num, 4, row.quantity, font_style)
+        ws.write(row_num, 5, row.score, font_style)
     wb.save(response)
+    DataBottle.objects.filter(department=dpm).update(
+        status=1, endAt=timezone.now())
+    if len(data) > 0:
+        HistoryEvaluate.objects.create(quantityStudent=len(
+            data), evaluator=request.user, dataBottle=[i.id for i in data])
+
     return response

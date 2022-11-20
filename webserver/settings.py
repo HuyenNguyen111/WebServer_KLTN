@@ -91,9 +91,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'KLTN',
-        'USER': 'postgres',
-        'PASSWORD': 'kltn',
-        'HOST': '0.0.0.0',
+        'USER': 'huyen',
+        'PASSWORD': 'H123',
+        'HOST': '13.229.95.69',
         'PORT': '5432',
     }
 }
